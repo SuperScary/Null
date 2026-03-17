@@ -26,10 +26,18 @@ public class SatelliteBlockEntity extends BlockEntity {
     }
 
     public void setControllerPos(@Nullable BlockPos controllerPos) {
-        if (!Objects.equals(controllerPos, this.controllerPos)) {
-            this.controllerPos = controllerPos;
+        boolean changed = !Objects.equals(controllerPos, this.controllerPos);
+        this.controllerPos = controllerPos;
+        if (changed) {
             setChanged();
+            refreshConnections();
         }
+    }
+
+    public void refreshConnections() {
+        if (level == null || level.isClientSide) return;
+        BlockState state = getBlockState();
+        level.sendBlockUpdated(worldPosition, state, state, 3);
     }
 
     @Nullable

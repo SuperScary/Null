@@ -30,7 +30,7 @@ public class EnLangProvider extends LanguageProvider implements IDataProvider {
 
     protected void addManualStrings() {
         add("itemGroup." + Null.MODID, Null.NAME);
-        add("menu." + Null.MODID + ".quarry", "Quarry");
+        add("menu." + Null.MODID + ".quarry", "Dimensional Quarry");
 
         add("gui." + Null.MODID + ".quarry.term.header", "STATUS");
         add("gui." + Null.MODID + ".quarry.term.head", "Head: X=%s Y=%s Z=%s");

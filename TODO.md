@@ -3,13 +3,18 @@
 This list is a stream of consciousness for what I want to add to the mod.
 Currently, the main focus is the Quarry inspired by EU2.
 
+## Blocks / Multiblocks
 - [x] Dimensional Quarry
 - [ ] Arboreal Synthesis Engine (ASE)
 - [ ] Florogenesis Engine (FGE)
 
+## Items
+- [ ] Biome Marker (WIP)
+
 # Definitions
 
-## Dimensional Quarry
+## Blocks
+### Dimensional Quarry
 The Dimensional Quarry is a machine that can mine blocks in an alternate dimension. It does this by generating a chunk in
 the alternate dimension and then mining the blocks in that chunk. When it finishes, the chunk is regenerated and the
 quarry begins to mine the blocks again. This process repeats until the quarry is stopped.
@@ -18,7 +23,7 @@ The quarry is powered by RF and has a maximum capacity of 20,000,000 RF. It cons
 up to one block per tick.
 The quarry also has a built-in fluid tank for storing fluids.
 
-## Arboreal Synthesis Engine (ASE)
+### Arboreal Synthesis Engine (ASE)
 The Arboreal Synthesis Engine is a multiblock machine designed for automated tree growth and wood production. Rather than 
 planting and harvesting trees in the world directly, the ASE simulates arboreal growth within an internal process chamber 
 and outputs the resulting materials.
@@ -39,7 +44,7 @@ Potential features include:
 - Internal storage for items and fluids
 - Visual or animated multiblock activity while processing
 
-## Florogenesis Engine (FGE)
+### Florogenesis Engine (FGE)
 The Florogenesis Engine is a multiblock machine designed for accelerated plant and crop production. It functions as a 
 synthetic cultivation system, using energy and supplied inputs to grow and reproduce plant matter without requiring 
 traditional farmland layouts.
@@ -59,3 +64,8 @@ Potential features include:
 - Upgrade support for speed, efficiency, or yield
 - Internal inventory and fluid storage
 - Distinct processing visuals to separate it from the ASE
+
+## Items
+### Biome Marker
+The Biome Marker is a small item that is used to store a biome for the Dimensional Quarry to mine. 
+

@@ -28,8 +28,8 @@ public class NBlocks {
     public static final DeferredRegister.Blocks REGISTRY = DeferredRegister.createBlocks(Null.MODID);
     private static final List<BlockDefinition<?>> BLOCKS = new ArrayList<>();
 
-    public static final BlockDefinition<SatelliteBlock> QUARRY_SATELLITE = register("Quarry Satellite", SatelliteBlock::new);
-    public static final BlockDefinition<QuarryFrameBlock> QUARRY_FRAME   = register("Quarry Frame", QuarryFrameBlock::new);
+    public static final BlockDefinition<SatelliteBlock> QUARRY_SATELLITE = register("Dimensional Quarry Satellite", "quarry_satellite", SatelliteBlock::new);
+    public static final BlockDefinition<QuarryFrameBlock> QUARRY_FRAME   = register("Dimensional Quarry Frame", "quarry_frame", QuarryFrameBlock::new);
 
     public static List<BlockDefinition<?>> getBlocks () {
         return Collections.unmodifiableList(BLOCKS);

@@ -9,7 +9,6 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.superscary.nullmod.api.util.MouseUtil;
 import net.superscary.nullmod.client.renderer.EnergyDisplayTooltipArea;
 import net.superscary.nullmod.core.Null;
-import net.superscary.nullmod.item.BiomeMarkerItem;
 import net.superscary.nullmod.menu.QuarryMenu;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,24 +72,30 @@ public class QuarryScreen extends AbstractContainerScreen<QuarryMenu> {
         float baseX = rectX / scale;
         float baseY = rectY / scale;
 
-        float startY = baseY + Math.max(0.0f, (scaledRectH - totalH) / 2.0f);
+        float startY = baseY + 3; // + Math.max(0.0f, (scaledRectH - totalH) / 2.0f);
 
         graphics.pose().pushPose();
         graphics.pose().scale(scale, scale, 1.0f);
         float y = startY;
         for (Component line : lines) {
-            int w = font.width(line);
-            float x = baseX + Math.max(0.0f, 3);
-            graphics.drawString(font, line, (int) x, (int) y, color, false);
+            //int w = font.width(line);
+            float x = baseX + Math.max(0.0f, 0);
+            graphics.drawString(font, line, (int) x - 3, (int) y, color, false);
             y += font.lineHeight + lineSpacing;
         }
         graphics.pose().popPose();
     }
 
     private List<Component> getTerminalLines() {
-        var marker = menu.getSlot(0).getItem();
-        var biomeId = BiomeMarkerItem.getBiomeId(marker);
+        //var marker = menu.getSlot(0).getItem();
+        //var biomeId = BiomeMarkerItem.getBiomeId(marker);
         String biomeText = menu.getFrameBlockEntity().getCurrentBiome();
+
+        String statusText = null;
+        var beStatus = menu.getFrameBlockEntity();
+        if (beStatus != null) {
+            statusText = beStatus.getStatus();
+        }
 
         BigInteger blocksMinedText = null;
         var be = menu.getFrameBlockEntity();
@@ -101,8 +106,7 @@ public class QuarryScreen extends AbstractContainerScreen<QuarryMenu> {
         Component powerState = getPowerState();
 
         return List.of(
-                Component.translatable("gui.nullmod.quarry.term.header"),
-                Component.empty(),
+                Component.literal("Status: " + (statusText == null ? "" : statusText)),
                 //Component.translatable("gui.nullmod.quarry.term.head", menu.getMineX(), menu.getMineY(), menu.getMineZ()),
                 Component.translatable("gui.nullmod.quarry.term.biome", biomeText),
                 Component.translatable("gui.nullmod.quarry.term.power", powerState),
@@ -130,6 +134,8 @@ public class QuarryScreen extends AbstractContainerScreen<QuarryMenu> {
         int y = (height - imageHeight) / 2;
 
         renderEnergyAreaTooltips(graphics, mouseX, mouseY, x, y);
+        graphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY - 1, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY + 1, 4210752, false);
     }
 
     @Override

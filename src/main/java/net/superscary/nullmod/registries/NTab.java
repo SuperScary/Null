@@ -27,7 +27,7 @@ public class NTab {
     public static void initialize(Registry<CreativeModeTab> registry) {
         var tab = CreativeModeTab.builder()
                 .title(Component.translatable("itemGroup." + Null.MODID))
-                .icon(NItems.BIOME_MARKER::getStack)
+                .icon(NBlocks.QUARRY_FRAME::getStack)
                 .displayItems(NTab::buildDisplayItems)
                 .build();
         Registry.register(registry, MAIN, tab);
