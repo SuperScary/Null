@@ -5,4 +5,4 @@ navigation:
 ---
 
 # Energy
-Null uses RF (Redstone Flux) to power all machines. 
+Null uses FE (Forge Energy) to power all machines.

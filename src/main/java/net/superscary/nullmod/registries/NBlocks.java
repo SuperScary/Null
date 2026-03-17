@@ -5,11 +5,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.*;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.superscary.nullmod.api.block.BlockDefinition;
+import net.superscary.nullmod.api.block.*;
 import net.superscary.nullmod.api.block.base.BaseBlock;
 import net.superscary.nullmod.api.item.ItemDefinition;
 import net.superscary.nullmod.api.item.base.BaseBlockItem;
@@ -34,6 +32,19 @@ public class NBlocks {
     public static final BlockDefinition<QuarryFrameBlock> QUARRY_FRAME   = register("Dimensional Quarry Frame", "quarry_frame", QuarryFrameBlock::new);
 
     public static final BlockDefinition<BaseBlock> MACHINE_FRAME = register("Machine Frame", BaseBlock::new);
+
+    public static final BlockDefinition<DecorationBlock> MARBLE = register("Marble", DecorationBlock::new);
+    public static final BlockDefinition<NWallBlock> MARBLE_WALL = register("Marble Wall", () -> new NWallBlock(MARBLE.getBlock().properties(), MARBLE));
+    public static final BlockDefinition<NStairBlock> MARBLE_STAIR = register("Marble Stairs", () -> new NStairBlock(MARBLE.getBlock().defaultBlockState(), MARBLE.getBlock().properties(), MARBLE));
+    public static final BlockDefinition<NSlabBlock> MARBLE_SLAB = register("Marble Slab", () -> new NSlabBlock(MARBLE.getBlock().properties(), MARBLE));
+    public static final BlockDefinition<DecorationBlock> MARBLE_BRICK = register("Marble Brick", DecorationBlock::new);
+    public static final BlockDefinition<NWallBlock> MARBLE_BRICK_WALL = register("Marble Brick Wall", () -> new NWallBlock(MARBLE_BRICK.getBlock().properties(), MARBLE_BRICK));
+    public static final BlockDefinition<NStairBlock> MARBLE_BRICK_STAIR = register("Marble Brick Stairs", () -> new NStairBlock(MARBLE_BRICK.getBlock().defaultBlockState(), MARBLE_BRICK.getBlock().properties(), MARBLE_BRICK));
+    public static final BlockDefinition<NSlabBlock> MARBLE_BRICK_SLAB = register("Marble Brick Slab", () -> new NSlabBlock(MARBLE_BRICK.getBlock().properties(), MARBLE_BRICK));
+    public static final BlockDefinition<DecorationBlock> POLISHED_MARBLE = register("Polished Marble", "marble_polished", DecorationBlock::new);
+    public static final BlockDefinition<NWallBlock> POLISHED_MARBLE_WALL = register("Polished Marble Wall", () -> new NWallBlock(POLISHED_MARBLE.getBlock().properties(), POLISHED_MARBLE));
+    public static final BlockDefinition<NStairBlock> POLISHED_MARBLE_STAIR = register("Polished Marble Stairs", () -> new NStairBlock(POLISHED_MARBLE.getBlock().defaultBlockState(), POLISHED_MARBLE.getBlock().properties(), POLISHED_MARBLE));
+    public static final BlockDefinition<NSlabBlock> POLISHED_MARBLE_SLAB = register("Polished Marble Slab", () -> new NSlabBlock(POLISHED_MARBLE.getBlock().properties(), POLISHED_MARBLE));
 
     public static List<BlockDefinition<?>> getBlocks () {
         return Collections.unmodifiableList(BLOCKS);

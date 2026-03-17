@@ -1,10 +1,17 @@
 package net.superscary.nullmod.datagen.models;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.StairBlock;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.superscary.nullmod.api.block.BlockDefinition;
+import net.superscary.nullmod.api.block.NSlabBlock;
+import net.superscary.nullmod.api.block.NStairBlock;
+import net.superscary.nullmod.api.block.NWallBlock;
 import net.superscary.nullmod.block.SatelliteBlock;
 import net.superscary.nullmod.core.Null;
 import net.superscary.nullmod.registries.NBlocks;
@@ -22,10 +29,23 @@ public class BlockModelProvider extends BlockStateProvider {
         for (var block : NBlocks.getBlocks()) {
             if (block.getBlock() instanceof SatelliteBlock) {
                 satellite(block);
+            } else if (block.getBlock() instanceof NStairBlock stair) {
+                stairsBlock(stair, blockTexture(stair.getParent().getBlock()));
+                blockItem(block);
+            } else if (block.getBlock() instanceof NSlabBlock slab) {
+                slabBlock(slab, blockTexture(slab.getParent().getBlock()), blockTexture(slab.getParent().getBlock()));
+                blockItem(block);
+            } else if (block.getBlock() instanceof NWallBlock wall) {
+                wallBlock(wall, blockTexture(wall.getParent().getBlock()));
+                itemModels().wallInventory(block.getId().getPath(), blockTexture(wall.getParent().getBlock()));
             } else {
                 blockWithItem(block);
             }
         }
+    }
+
+    private void blockItem (BlockDefinition<?> blockRegistryObject) {
+        simpleBlockItem(blockRegistryObject.getBlock(), new ModelFile.UncheckedModelFile(Null.MODID + ":block/" + blockRegistryObject.getId().getPath()));
     }
 
     private void satellite(BlockDefinition<?> block) {
