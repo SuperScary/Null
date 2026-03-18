@@ -2,7 +2,11 @@
 navigation:
   parent: items-and-blocks/items-and-blocks-index.md
   title: Dimensional Quarry
+  icon: nullmod:quarry_frame
   position: 10
+item_ids:
+- nullmod:quarry_frame
+- nullmod:quarry_satellite
 ---
 
 # Dimensional Quarry
@@ -15,6 +19,22 @@ The mining dimension is a form of the overworld/nether/end that the quarry uses 
   <ImportStructure src="nullmod:assets/assemblies/dimensional_quarry.nbt" />
   <IsometricCamera yaw="195" pitch="30" />
 </GameScene>
+
+---
+
+## Blocks
+The Dimensional Quarry consists of:
+
+### Dimensional Quarry Frame
+<BlockImage id="nullmod:quarry_frame" scale="1.5" />
+The Dimensional Quarry Frame is the main block of the Dimensional Quarry multiblock structure. It is used to form the quarry and is the central block of the multiblock.
+
+
+### Dimensional Quarry Satellite
+<BlockImage id="nullmod:quarry_satellite" scale="1.5" />
+The Dimensional Quarry Satellite is a block that is used to form the Dimensional Quarry multiblock structure. It is used to power the quarry and is the peripheral block of the multiblock.
+
+---
 
 ## Building the multiblock
 
@@ -34,6 +54,8 @@ Notes:
 - Satellites can only be placed if you click a face of the Frame (the Satellite block validates placement).
 - If any Satellite is missing or facing the wrong way, the quarry is **not formed** and cannot be used.
 
+---
+
 ## Opening the GUI
 
 When the multiblock is formed:
@@ -45,9 +67,13 @@ to open the same quarry GUI.
 
 If the multiblock is not formed, the Frame will not open.
 
+---
+
 ## Redstone control
 
 If the Frame receives a redstone signal, the quarry will **disable itself**.
+
+---
 
 ## Power, fluids, and exports
 
@@ -74,6 +100,8 @@ The quarry has an internal **10,000 mB** tank:
 - **Flowing fluids** are skipped.
 - If the tank is full, it will skip source fluids and show **"Fluid tank full (skipping source fluids)"**.
 
+---
+
 ## Quarry upgrades (GUI slots)
 
 The quarry GUI contains 3 special slots:
@@ -92,6 +120,8 @@ The two book slots accept **Enchanted Books**. The quarry combines the enchantme
 - Only enchantments that are valid for a diamond pickaxe are accepted
 
 This affects what drops you get (e.g., Fortune/Silk Touch depending on what you insert).
+
+---
 
 ## How mining works
 
@@ -122,6 +152,8 @@ The quarry mines **one block per tick attempt** and advances a cursor:
 - Air and bedrock are skipped.
 - Mined blocks are replaced with **bedrock** in the quarry dimension.
 - Drops are generated using normal loot tables with the quarry’s internal tool.
+
+---
 
 ## Troubleshooting
 

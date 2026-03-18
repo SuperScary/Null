@@ -4,10 +4,10 @@ navigation:
   title: Biome Marker
   icon: nullmod:biome_marker
   position: 13
-  categories:
-    items
-  item_ids:
-    nullmod:biome_marker
+categories:
+- items
+item_ids:
+- nullmod:biome_marker
 ---
 
 # Biome Marker

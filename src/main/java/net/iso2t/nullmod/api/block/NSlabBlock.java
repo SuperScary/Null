@@ -23,8 +23,8 @@ public class NSlabBlock extends SlabBlock implements IRecipeProvider, ITagProvid
     @Getter
     private final BlockDefinition<?> parent;
 
-    public NSlabBlock(Properties properties, BlockDefinition<?> parent) {
-        super(properties);
+    public NSlabBlock(BlockDefinition<?> parent) {
+        super(parent.getBlock().properties());
         this.parent = parent;
     }
 

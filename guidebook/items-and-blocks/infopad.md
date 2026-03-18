@@ -4,10 +4,10 @@ navigation:
   title: InfoPad™
   icon: nullmod:guide
   position: 210
-  categories:
-    misc
-  item_ids:
-    nullmod:guide
+categories:
+- misc
+item_ids:
+- nullmod:guide
 ---
 
 # InfoPad

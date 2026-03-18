@@ -23,8 +23,8 @@ public class NWallBlock extends WallBlock implements IRecipeProvider, ITagProvid
     @Getter
     private final BlockDefinition<?> parent;
 
-    public NWallBlock(Properties properties, BlockDefinition<?> parent) {
-        super(properties);
+    public NWallBlock(BlockDefinition<?> parent) {
+        super(parent.getBlock().properties());
         this.parent = parent;
     }
 

@@ -36,6 +36,13 @@ tasks.named('jar', Jar) {
     }
 }
 
+tasks.named('processResources', ProcessResources) {
+    exclude '/.cache'
+    from('guidebook') {
+        into 'assets/nullmod/guide'
+    }
+}
+
 neoForge {
     version = project.neo_version
 

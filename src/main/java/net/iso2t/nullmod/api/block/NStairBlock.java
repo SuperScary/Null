@@ -25,8 +25,8 @@ public class NStairBlock extends StairBlock implements IRecipeProvider, ITagProv
     @Getter
     private final BlockDefinition<?> parent;
 
-    public NStairBlock(BlockState baseState, BlockBehaviour.Properties properties, BlockDefinition<?> parent) {
-        super(baseState, properties);
+    public NStairBlock(BlockDefinition<?> parent) {
+        super(parent.getBlock().defaultBlockState(), parent.getBlock().properties());
         this.parent = parent;
     }
 

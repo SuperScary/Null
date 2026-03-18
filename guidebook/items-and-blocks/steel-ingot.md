@@ -4,10 +4,10 @@ navigation:
   title: Steel Ingot
   icon: nullmod:steel_ingot
   position: 210
-  categories:
-    misc
-  item_ids:
-    nullmod:steel_ingot
+categories:
+- items
+item_ids:
+- nullmod:steel_ingot
 ---
 
 # Steel Ingot

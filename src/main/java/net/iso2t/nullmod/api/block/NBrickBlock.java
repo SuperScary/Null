@@ -23,13 +23,9 @@ public class NBrickBlock extends DecorationBlock implements IRecipeProvider, ITa
     @Getter
     private final BlockDefinition<?> parent;
 
-    public NBrickBlock(Properties properties, BlockDefinition<?> parent) {
-        super(properties);
-        this.parent = parent;
-    }
-
     public NBrickBlock(BlockDefinition<?> parent) {
-        this(Properties.ofFullCopy(Blocks.STONE), parent);
+        super(parent.getBlock().properties());
+        this.parent = parent;
     }
 
     @Override

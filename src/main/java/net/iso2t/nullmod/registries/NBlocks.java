@@ -37,26 +37,26 @@ public class NBlocks {
     //     MISC BLOCKS
     //========================
     public static final BlockDefinition<DecorationBlock> MARBLE = register("Marble", DecorationBlock::new);
-    public static final BlockDefinition<NWallBlock> MARBLE_WALL = register("Marble Wall", () -> new NWallBlock(MARBLE.getBlock().properties(), MARBLE));
-    public static final BlockDefinition<NStairBlock> MARBLE_STAIR = register("Marble Stairs", () -> new NStairBlock(MARBLE.getBlock().defaultBlockState(), MARBLE.getBlock().properties(), MARBLE));
-    public static final BlockDefinition<NSlabBlock> MARBLE_SLAB = register("Marble Slab", () -> new NSlabBlock(MARBLE.getBlock().properties(), MARBLE));
-    public static final BlockDefinition<NBrickBlock> MARBLE_BRICK = register("Marble Brick", () -> new  NBrickBlock(MARBLE.getBlock().properties(), MARBLE));
-    public static final BlockDefinition<NWallBlock> MARBLE_BRICK_WALL = register("Marble Brick Wall", () -> new NWallBlock(MARBLE_BRICK.getBlock().properties(), MARBLE_BRICK));
-    public static final BlockDefinition<NStairBlock> MARBLE_BRICK_STAIR = register("Marble Brick Stairs", () -> new NStairBlock(MARBLE_BRICK.getBlock().defaultBlockState(), MARBLE_BRICK.getBlock().properties(), MARBLE_BRICK));
-    public static final BlockDefinition<NSlabBlock> MARBLE_BRICK_SLAB = register("Marble Brick Slab", () -> new NSlabBlock(MARBLE_BRICK.getBlock().properties(), MARBLE_BRICK));
+    public static final BlockDefinition<NWallBlock> MARBLE_WALL = register("Marble Wall", () -> new NWallBlock(MARBLE));
+    public static final BlockDefinition<NStairBlock> MARBLE_STAIR = register("Marble Stairs", () -> new NStairBlock(MARBLE));
+    public static final BlockDefinition<NSlabBlock> MARBLE_SLAB = register("Marble Slab", () -> new NSlabBlock(MARBLE));
+    public static final BlockDefinition<NBrickBlock> MARBLE_BRICK = register("Marble Bricks", () -> new  NBrickBlock(MARBLE));
+    public static final BlockDefinition<NWallBlock> MARBLE_BRICK_WALL = register("Marble Brick Wall", () -> new NWallBlock(MARBLE_BRICK));
+    public static final BlockDefinition<NStairBlock> MARBLE_BRICK_STAIR = register("Marble Brick Stairs", () -> new NStairBlock(MARBLE_BRICK));
+    public static final BlockDefinition<NSlabBlock> MARBLE_BRICK_SLAB = register("Marble Brick Slab", () -> new NSlabBlock(MARBLE_BRICK));
     public static final BlockDefinition<DecorationBlock> POLISHED_MARBLE = register("Polished Marble", "marble_polished", DecorationBlock::new);
-    public static final BlockDefinition<NWallBlock> POLISHED_MARBLE_WALL = register("Polished Marble Wall", () -> new NWallBlock(POLISHED_MARBLE.getBlock().properties(), POLISHED_MARBLE));
-    public static final BlockDefinition<NStairBlock> POLISHED_MARBLE_STAIR = register("Polished Marble Stairs", () -> new NStairBlock(POLISHED_MARBLE.getBlock().defaultBlockState(), POLISHED_MARBLE.getBlock().properties(), POLISHED_MARBLE));
-    public static final BlockDefinition<NSlabBlock> POLISHED_MARBLE_SLAB = register("Polished Marble Slab", () -> new NSlabBlock(POLISHED_MARBLE.getBlock().properties(), POLISHED_MARBLE));
+    public static final BlockDefinition<NWallBlock> POLISHED_MARBLE_WALL = register("Polished Marble Wall", () -> new NWallBlock(POLISHED_MARBLE));
+    public static final BlockDefinition<NStairBlock> POLISHED_MARBLE_STAIR = register("Polished Marble Stairs", () -> new NStairBlock(POLISHED_MARBLE));
+    public static final BlockDefinition<NSlabBlock> POLISHED_MARBLE_SLAB = register("Polished Marble Slab", () -> new NSlabBlock(POLISHED_MARBLE));
 
     public static final BlockDefinition<DecorationBlock> BASALT =  register("Basalt", DecorationBlock::new);
-    public static final BlockDefinition<NWallBlock> BASALT_WALL = register("Basalt Wall",  () -> new NWallBlock(BASALT.getBlock().properties(), BASALT));
-    public static final BlockDefinition<NStairBlock> BASALT_STAIR = register("Basalt Stairs", () -> new NStairBlock(BASALT.getBlock().defaultBlockState(), BASALT.getBlock().properties(), BASALT));
-    public static final BlockDefinition<NSlabBlock> BASALT_SLAB = register("Basalt Slab", () -> new NSlabBlock(BASALT.getBlock().properties(), BASALT));
-    public static final BlockDefinition<NBrickBlock> BASALT_BRICKS = register("Basalt Bricks", () -> new NBrickBlock(BASALT.getBlock().properties(), BASALT));
-    public static final BlockDefinition<NWallBlock> BASALT_BRICK_WALL = register("Basalt Brick Wall", () -> new NWallBlock(BASALT_BRICKS.getBlock().properties(), BASALT_BRICKS));
-    public static final BlockDefinition<NStairBlock> BASALT_BRICK_STAIR = register("Basalt Brick Stairs", () -> new NStairBlock(BASALT_BRICKS.getBlock().defaultBlockState(), BASALT_BRICKS.getBlock().properties(), BASALT_BRICKS));
-    public static final BlockDefinition<NSlabBlock> BASALT_BRICK_SLAB = register("Basalt Brick Slab", () -> new NSlabBlock(BASALT_BRICKS.getBlock().properties(), BASALT_BRICKS));
+    public static final BlockDefinition<NWallBlock> BASALT_WALL = register("Basalt Wall",  () -> new NWallBlock(BASALT));
+    public static final BlockDefinition<NStairBlock> BASALT_STAIR = register("Basalt Stairs", () -> new NStairBlock(BASALT));
+    public static final BlockDefinition<NSlabBlock> BASALT_SLAB = register("Basalt Slab", () -> new NSlabBlock(BASALT));
+    public static final BlockDefinition<NBrickBlock> BASALT_BRICKS = register("Basalt Bricks", () -> new NBrickBlock(BASALT));
+    public static final BlockDefinition<NWallBlock> BASALT_BRICK_WALL = register("Basalt Brick Wall", () -> new NWallBlock(BASALT_BRICKS));
+    public static final BlockDefinition<NStairBlock> BASALT_BRICK_STAIR = register("Basalt Brick Stairs", () -> new NStairBlock(BASALT_BRICKS));
+    public static final BlockDefinition<NSlabBlock> BASALT_BRICK_SLAB = register("Basalt Brick Slab", () -> new NSlabBlock(BASALT_BRICKS));
 
     public static List<BlockDefinition<?>> getBlocks () {
         return Collections.unmodifiableList(BLOCKS);

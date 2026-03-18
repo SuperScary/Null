@@ -6,8 +6,8 @@ navigation:
   position: 210
   categories:
     blocks
-  item_ids:
-    nullmod:machine_frame
+item_ids:
+- nullmod:machine_frame
 ---
 
 # Machine Frame
