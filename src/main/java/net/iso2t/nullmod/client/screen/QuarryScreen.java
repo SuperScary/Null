@@ -14,8 +14,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class QuarryScreen extends AbstractContainerScreen<QuarryMenu> {
 
@@ -89,12 +91,19 @@ public class QuarryScreen extends AbstractContainerScreen<QuarryMenu> {
     private List<Component> getTerminalLines() {
         //var marker = menu.getSlot(0).getItem();
         //var biomeId = BiomeMarkerItem.getBiomeId(marker);
-        String biomeText = menu.getFrameBlockEntity().getCurrentBiome();
+        String biomeText = menu.getFrameBlockEntity().getCurrentBiome().split(":")[1];
+        biomeText = Arrays.stream(biomeText.split("_"))
+                .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
+                .collect(Collectors.joining(" "));
 
-        String statusText = null;
         var beStatus = menu.getFrameBlockEntity();
-        if (beStatus != null) {
-            statusText = beStatus.getStatus();
+
+        Component statusLine;
+        var status = beStatus == null ? null : beStatus.getQuarryStatus();
+        if (status == null) {
+            statusLine = Component.translatable("gui.nullmod.quarry.term.status", "");
+        } else {
+            statusLine = Component.translatable("gui.nullmod.quarry.term.status", status.asComponent());
         }
 
         BigInteger blocksMinedText = null;
@@ -106,7 +115,7 @@ public class QuarryScreen extends AbstractContainerScreen<QuarryMenu> {
         Component powerState = getPowerState();
 
         return List.of(
-                Component.literal("Status: " + (statusText == null ? "" : statusText)),
+                statusLine,
                 //Component.translatable("gui.nullmod.quarry.term.head", menu.getMineX(), menu.getMineY(), menu.getMineZ()),
                 Component.translatable("gui.nullmod.quarry.term.biome", biomeText),
                 Component.translatable("gui.nullmod.quarry.term.power", powerState),

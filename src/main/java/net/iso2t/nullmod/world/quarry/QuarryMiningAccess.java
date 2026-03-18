@@ -23,6 +23,13 @@ public interface QuarryMiningAccess {
     long getQuarryInstanceSalt();
 
     /**
+     * Retrieves the dimensional anchor stack associated with the quarry system.
+     *
+     * @return An {@code ItemStack} representing the dimensional anchor stack.
+     */
+    ItemStack getDimensionalAnchorStack();
+
+    /**
      * Retrieves the energy storage associated with the quarry system.
      *
      * @return An {@code IEnergyStorage} instance representing the energy storage unit

@@ -1,16 +1,16 @@
 package net.iso2t.nullmod.registries;
 
 import com.google.common.base.Preconditions;
+import net.iso2t.nullmod.api.item.ItemDefinition;
+import net.iso2t.nullmod.api.item.base.BaseItem;
+import net.iso2t.nullmod.core.Null;
+import net.iso2t.nullmod.item.DimensionalAnchorItem;
+import net.iso2t.nullmod.item.GuideItem;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.iso2t.nullmod.item.GuideItem;
-import net.iso2t.nullmod.api.item.ItemDefinition;
-import net.iso2t.nullmod.api.item.base.BaseItem;
-import net.iso2t.nullmod.core.Null;
-import net.iso2t.nullmod.item.BiomeMarkerItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class NItems {
     public static final DeferredRegister.Items REGISTRY = DeferredRegister.createItems(Null.MODID);
     private static final List<ItemDefinition<?>> ITEMS = new ArrayList<>();
 
-    public static final ItemDefinition<BiomeMarkerItem> BIOME_MARKER = register("Biome Marker", BiomeMarkerItem::new);
+    public static final ItemDefinition<DimensionalAnchorItem> DIMENSIONAL_ANCHOR = register("Dimensional Anchor", "dimensional_anchor", DimensionalAnchorItem::new);
 
     public static final ItemDefinition<BaseItem> GUIDE = register("InfoPad™", "guide", GuideItem::new);
 

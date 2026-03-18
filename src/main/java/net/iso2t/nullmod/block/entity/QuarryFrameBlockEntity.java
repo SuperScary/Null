@@ -1,12 +1,19 @@
 package net.iso2t.nullmod.block.entity;
 
 import lombok.Getter;
+import net.iso2t.nullmod.api.energy.NullEnergyStorage;
+import net.iso2t.nullmod.api.item.ExportOnlyItemStackHandler;
+import net.iso2t.nullmod.block.SatelliteBlock;
+import net.iso2t.nullmod.registries.NBlockEntities;
+import net.iso2t.nullmod.registries.NBlocks;
+import net.iso2t.nullmod.world.quarry.QuarryManager;
+import net.iso2t.nullmod.world.quarry.QuarryMiningAccess;
+import net.iso2t.nullmod.world.quarry.QuarryStatus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -19,18 +26,10 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import net.iso2t.nullmod.api.energy.NullEnergyStorage;
-import net.iso2t.nullmod.api.item.ExportOnlyItemStackHandler;
-import net.iso2t.nullmod.block.SatelliteBlock;
-import net.iso2t.nullmod.registries.NBlockEntities;
-import net.iso2t.nullmod.registries.NBlocks;
-import net.iso2t.nullmod.world.quarry.QuarryManager;
-import net.iso2t.nullmod.world.quarry.QuarryMiningAccess;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
-import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class QuarryFrameBlockEntity extends BlockEntity {
@@ -70,8 +69,7 @@ public class QuarryFrameBlockEntity extends BlockEntity {
     };
 
     public String getCurrentBiome() {
-        var pos = new BlockPos(quarryManager.getMineX(), quarryManager.getMineY(), quarryManager.getMineZ());
-        return Objects.requireNonNull(getLevel().getBiome(pos).unwrapKey().map(ResourceKey::location).orElse(null)).toString();
+        return quarryManager.getSelectedBiomeId();
     }
 
     private ItemStack buildMiningTool() {
@@ -153,6 +151,11 @@ public class QuarryFrameBlockEntity extends BlockEntity {
         }
 
         @Override
+        public ItemStack getDimensionalAnchorStack() {
+            return quarrySlots.getStackInSlot(0);
+        }
+
+        @Override
         public IEnergyStorage getEnergyStorage() {
             return energyStorage;
         }
@@ -196,6 +199,11 @@ public class QuarryFrameBlockEntity extends BlockEntity {
     }
 
     public String getStatus() {
+        QuarryStatus status = quarryManager.getStatus();
+        return status == null ? null : status.name();
+    }
+
+    public QuarryStatus getQuarryStatus() {
         return quarryManager.getStatus();
     }
 

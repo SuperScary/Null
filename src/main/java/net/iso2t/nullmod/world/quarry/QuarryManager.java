@@ -20,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.iso2t.nullmod.core.Null;
+import net.iso2t.nullmod.item.DimensionalAnchorItem;
 
 import java.math.BigInteger;
 
@@ -37,6 +38,8 @@ public class QuarryManager {
     private static final ResourceKey<Level> QUARRY_OVERWORLD = ResourceKey.create(Registries.DIMENSION, Null.getResource("quarry_overworld"));
     private static final ResourceKey<Level> QUARRY_NETHER = ResourceKey.create(Registries.DIMENSION, Null.getResource("quarry_nether"));
     private static final ResourceKey<Level> QUARRY_END = ResourceKey.create(Registries.DIMENSION, Null.getResource("quarry_end"));
+
+    private ResourceKey<Level> lastQuarryLevelKey = QUARRY_OVERWORLD;
 
     private int forcedChunkX = Integer.MIN_VALUE;
     private int forcedChunkZ = Integer.MIN_VALUE;
@@ -65,11 +68,7 @@ public class QuarryManager {
     private String selectedBiomeId;
 
     @Getter
-    private String status;
-
-    public static ResourceKey<Level> quarryLevelKey() {
-        return QUARRY_OVERWORLD;
-    }
+    private QuarryStatus status;
 
     /**
      * Sets the active state of the instance and performs related actions based on the given parameters.
@@ -82,11 +81,25 @@ public class QuarryManager {
         this.active = active;
 
         if (!active) {
-            ServerLevel quarryLevel = overworld.getServer().getLevel(QUARRY_OVERWORLD);
+            ServerLevel quarryLevel = overworld.getServer().getLevel(lastQuarryLevelKey);
             if (quarryLevel != null) {
                 forceChunkLoaded(quarryLevel, false);
             }
         }
+    }
+
+    private ResourceKey<Level> resolveQuarryLevelKey(QuarryMiningAccess access) {
+        ItemStack anchor = access.getDimensionalAnchorStack();
+        if (anchor == null || anchor.isEmpty()) return QUARRY_OVERWORLD;
+
+        ResourceLocation id = DimensionalAnchorItem.getDimensionId(anchor);
+        if (id == null) return QUARRY_OVERWORLD;
+
+        if (id.equals(QUARRY_NETHER.location())) return QUARRY_NETHER;
+        if (id.equals(QUARRY_END.location())) return QUARRY_END;
+        if (id.equals(QUARRY_OVERWORLD.location())) return QUARRY_OVERWORLD;
+
+        return QUARRY_OVERWORLD;
     }
 
     /**
@@ -107,9 +120,12 @@ public class QuarryManager {
             initializeCursorIfNeeded(overworld, access.getQuarryControllerPos(), lastInstanceSalt);
         }
 
-        ServerLevel quarryLevel = overworld.getServer().getLevel(QUARRY_OVERWORLD);
+        ResourceKey<Level> quarryKey = resolveQuarryLevelKey(access);
+        lastQuarryLevelKey = quarryKey;
+
+        ServerLevel quarryLevel = overworld.getServer().getLevel(quarryKey);
         if (quarryLevel == null) {
-            updateStatus(access, "Quarry dimension missing");
+            updateStatus(access, QuarryStatus.QUARRY_DIMENSION_MISSING);
             return;
         }
 
@@ -117,8 +133,8 @@ public class QuarryManager {
         tryMineOneBlock(overworld, quarryLevel, access);
     }
 
-    private void updateStatus(QuarryMiningAccess access, String next) {
-        if (next != null && next.equals(status)) return;
+    private void updateStatus(QuarryMiningAccess access, QuarryStatus next) {
+        if (next == status) return;
         status = next;
         access.markDirtyAndSync();
     }
@@ -226,8 +242,12 @@ public class QuarryManager {
         return z ^ (z >>> 31);
     }
 
-    public void updateSelectedBiome(ServerLevel overworld, ResourceLocation fallback) {
-        selectedBiomeId = fallback == null ? null : fallback.toString();
+    private void updateSelectedBiome(QuarryMiningAccess access, ServerLevel quarryLevel, BlockPos pos) {
+        String next = quarryLevel.getBiome(pos).unwrapKey().map(key -> key.location().toString()).orElse(null);
+        if (next != null && next.equals(selectedBiomeId)) return;
+        if (next == null && selectedBiomeId == null) return;
+        selectedBiomeId = next;
+        access.markDirtyAndSync();
     }
 
     /**
@@ -288,14 +308,16 @@ public class QuarryManager {
             break;
         }
 
+        updateSelectedBiome(access, quarryLevel, targetPos);
+
         if (targetState.isAir() || targetState.is(Blocks.BEDROCK)) {
-            updateStatus(access, "No blocks (skipping)");
+            updateStatus(access, QuarryStatus.NO_BLOCKS_SKIPPING);
             return;
         }
 
         int cost = DEFAULT_RF_PER_BLOCK;
         if (access.getEnergyStorage().getEnergyStored() < cost) {
-            updateStatus(access, "No energy");
+            updateStatus(access, QuarryStatus.NO_ENERGY);
             return;
         }
 
@@ -305,7 +327,7 @@ public class QuarryManager {
                 FluidStack toFill = new FluidStack(fluidState.getType(), 1000);
                 int filled = access.getFluidTank().fill(toFill, IFluidHandler.FluidAction.EXECUTE);
                 if (filled == 1000) {
-                    updateStatus(access, "Mining");
+                    updateStatus(access, QuarryStatus.MINING);
                     access.getEnergyStorage().extractEnergy(cost, false);
                     quarryLevel.setBlock(targetPos, REPLACE_WITH.defaultBlockState(), 3);
                     blocksMined = blocksMined.add(BigInteger.ONE);
@@ -314,12 +336,12 @@ public class QuarryManager {
                     return;
                 }
 
-                updateStatus(access, "Fluid tank full (skipping source fluids)");
+                updateStatus(access, QuarryStatus.FLUID_TANK_FULL_SKIPPING_SOURCE_FLUIDS);
                 advanceDownOrNextColumn(quarryLevel);
                 return;
             }
 
-            updateStatus(access, "Skipping flowing fluid");
+            updateStatus(access, QuarryStatus.SKIPPING_FLOWING_FLUID);
             advanceDownOrNextColumn(quarryLevel);
             return;
         }
@@ -333,12 +355,12 @@ public class QuarryManager {
         for (ItemStack drop : drops) {
             ItemStack remaining = access.insertIntoExport(drop);
             if (!remaining.isEmpty()) {
-                updateStatus(access, "Export full");
+                updateStatus(access, QuarryStatus.EXPORT_FULL);
                 return;
             }
         }
 
-        updateStatus(access, "Mining");
+        updateStatus(access, QuarryStatus.MINING);
         access.getEnergyStorage().extractEnergy(cost, false);
         quarryLevel.setBlock(targetPos, REPLACE_WITH.defaultBlockState(), 3);
         blocksMined = blocksMined.add(BigInteger.ONE);
@@ -499,7 +521,7 @@ public class QuarryManager {
             tag.putString("SelectedBiome", selectedBiomeId);
         }
         if (status != null) {
-            tag.putString("Status", status);
+            tag.putString("Status", status.name());
         }
         tag.putString("BlocksMined", blocksMined.toString());
     }
@@ -520,7 +542,12 @@ public class QuarryManager {
         mineY = tag.getInt("MineY");
         mineZ = tag.getInt("MineZ");
         selectedBiomeId = tag.contains("SelectedBiome") ? tag.getString("SelectedBiome") : null;
-        status = tag.contains("Status") ? tag.getString("Status") : null;
+
+        if (tag.contains("Status")) {
+            status = QuarryStatus.fromSaved(tag.getString("Status"));
+        } else {
+            status = null;
+        }
 
         if (tag.contains("BlocksMined")) {
             try {

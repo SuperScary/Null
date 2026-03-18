@@ -11,10 +11,12 @@ Processing. Generating. Gathering.
 - [Downloads](#downloads)
 - [Installation](#installation)
 - [Issues](#issues)
-- [Building](#building
+- [Building](#building)
+- [Contributions](#contributions)
+- [Localization](#localization)
 
 ### What is Null?
-Null is a mod designed for late-game resource gathering in Minecraft, built upon the NeoForge modding framework.
+Null is a mod designed for late-game resource gathering and processing in Minecraft, built upon the NeoForge modding framework.
 
 ### License
 Null is covered by the Apache 2.0 License. Read more [here](LICENSE).

@@ -337,7 +337,7 @@ public class QuarryMenu extends AbstractContainerMenu {
         @Override
         public boolean mayPlace(ItemStack stack) {
             var key = BuiltInRegistries.ITEM.getKey(stack.getItem());
-            return key != null && key.getNamespace().equals("nullmod") && key.getPath().equals("biome_marker");
+            return key != null && key.getNamespace().equals("nullmod") && key.getPath().equals("dimensional_anchor");
         }
     }
 }
